@@ -1,0 +1,39 @@
+--track0:º¨Ø¿∞äpìx,0,720,180
+--track1:ª›ÃﬂŸêî,2,200,20,1
+
+local sht=obj.track0/(360*obj.framerate)
+local spl=obj.track1
+local x,y,z,zoom,alpha,asp,rx,ry,rz
+
+local function gvl(param,idx)
+	return obj.getvalue(param,obj.time-idx*sht/(spl-1))
+end
+
+if (obj.frame~=0) then
+	obj.setoption("drawtarget","tempbuffer",obj.screen_w,obj.screen_h)
+	obj.setoption("blend","alpha_add")
+
+	for i=0,spl-1 do
+		x=gvl("x",i)
+		y=gvl("y",i)
+		z=gvl("z",i)
+		zoom=gvl("zoom",i)
+		alpha=gvl("alpha",i)
+		asp=gvl("aspect",i)
+		rx=gvl("rx",i)
+		ry=gvl("ry",i)
+		rz=gvl("rz",i)
+		obj.draw(x,y,z,zoom*0.01,alpha/spl,rx,ry,rz)
+	end
+	obj.setoption("blend",0)
+	obj.load("tempbuffer")
+
+	obj.ox=-obj.x
+	obj.oy=-obj.y
+	obj.oz=-obj.z
+	obj.zoom=100/obj.getvalue"zoom"
+	obj.alpha=1/obj.getvalue"alpha"
+	obj.rx=0
+	obj.ry=0
+	obj.rz=0
+end

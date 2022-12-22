@@ -1,0 +1,46 @@
+--track0:ŠJŽnÌÚ°Ñ,0,1000,0,1
+--track1:U•,0,10,0.1,0.01
+--track2:U“®”,0,50,3,0.01
+--track3:Œ¸Š,0,20,7,0.01
+--dialog:U“®”’²®,local txt="100‚ðŠî€‚Æ‚µ‚½”ä";‡˜X,local x=100;‡˜Y,local y=100;‡˜Z,local z=100;‡˜Šg‘å—¦,local zoom=100;‡˜“§–¾“x,local alp=100;‡˜‰ñ“]X,local rx=100;‡˜‰ñ“]Y,local ry=100;‡˜‰ñ“]Z,local rz=100;ŠJŽnŽžŠÔŒŸo/chk,local auto=1;
+
+local stti = obj.track0/obj.framerate
+local amp = obj.track1
+local freq = obj.track2
+local dec = obj.track3
+local gv = obj.getvalue
+
+local function elasbounce(type, a)
+	local v
+	if (auto == 1) then
+		local tmp
+		for f = 0, obj.frame do
+			if (gv(type, f/obj.framerate) ~= gv(type, f/obj.framerate-0.001) and gv(type, f/obj.framerate) == gv(type, f/obj.framerate+0.001) and gv(type, f/obj.framerate) == gv(type, f/obj.framerate+0.1)) then
+				tmp = f/obj.framerate
+			end
+		end
+		if tmp then
+			stti = tmp
+		else
+			v = 0
+		end
+	end
+	if not v then
+		v = (gv(type,stti)-gv(type,stti-0.001))*1000
+	end
+	local result = v*amp*math.sin(0.01*a*freq*(obj.time-stti)*2*math.pi)/math.exp(dec*(obj.time-stti))
+	if (obj.time  >= stti) then
+		return result
+	else
+		return 0
+	end
+end
+
+obj.ox = elasbounce("x",x)
+obj.oy = elasbounce("y",y)
+obj.oz = elasbounce("z",z)
+obj.zoom = 1+0.01* elasbounce("zoom",zoom)
+obj.alpha = elasbounce("alpha",alp)
+obj.rx = gv"rx" + elasbounce("rx",rx)
+obj.ry = gv"ry" + elasbounce("ry",ry)
+obj.rz = gv"rz" + elasbounce("rz",rz)
