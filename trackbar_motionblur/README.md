@@ -1,1 +1,1 @@
-# aviutl-trackbar-motionblur
+# トラックバーモーションブラー v1.0
