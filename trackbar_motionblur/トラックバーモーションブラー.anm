@@ -1,9 +1,11 @@
 --track0:º¨Ø¿∞äpìx,0,720,180
 --track1:ª›ÃﬂŸêî,2,200,20,1
 
+require("rikky_module")
+
 local sht=obj.track0/(360*obj.framerate)
 local spl=obj.track1
-local x,y,z,zoom,alpha,asp,rx,ry,rz
+local x,y,z,zoom,alpha,asp,cx,cy,cz,rx,ry,rz,x1,y1,z1,x2,y2,z2,x3,y3,z3
 
 local function gvl(param,idx)
 	return obj.getvalue(param,obj.time-idx*sht/(spl-1))
@@ -20,17 +22,28 @@ if (obj.frame~=0) then
 		zoom=gvl("zoom",i)
 		alpha=gvl("alpha",i)
 		asp=gvl("aspect",i)
+		cx=gvl("cx",i)
+		cy=gvl("cy",i)
+		cz=gvl("cz",i)
 		rx=gvl("rx",i)
 		ry=gvl("ry",i)
 		rz=gvl("rz",i)
-		obj.draw(x,y,z,zoom*0.01,alpha/spl,rx,ry,rz)
+		if not cx or not cy or not cz then
+			cx = 0
+			cy = 0
+			cz = 0
+		end
+		x1,y1,z1 = rikky_module.rotation(x - cx, y - cy, z - cz, math.rad(rx), {1, 0, 0}, {x, y, z})--XâÒì]
+		x2,y2,z2 = rikky_module.rotation(x1, y1, z1, -math.rad(ry), {0, -math.cos(math.rad(rx)), -math.sin(math.rad(rx))}, {x, y, z})--YâÒì]
+		x3,y3,z3 = rikky_module.rotation(x2, y2, z2, -math.rad(rz), {-math.sin(math.rad(ry)), math.sin(math.rad(rx)) * math.cos(math.rad(ry)), -math.cos(math.rad(rx)) * math.cos(ry)}, {x, y, z})--ZâÒì]
+		obj.draw(x3,y3,z3,zoom*0.01,alpha/spl,rx,ry,rz)
 	end
 	obj.setoption("blend",0)
 	obj.load("tempbuffer")
 
-	obj.ox=-obj.x
-	obj.oy=-obj.y
-	obj.oz=-obj.z
+	obj.ox=-obj.x+obj.cx
+	obj.oy=-obj.y+obj.cy
+	obj.oz=-obj.z+obj.cz
 	obj.zoom=100/obj.getvalue"zoom"
 	obj.alpha=1/obj.getvalue"alpha"
 	obj.rx=0
