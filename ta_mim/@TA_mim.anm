@@ -1,0 +1,9 @@
+@Delay
+--track0:interval,0,10,0.06,0.01
+
+local itv = obj.track0
+
+local gv = obj.getvalue
+obj.ox = obj.ox + gv("x", obj.time - obj.index * itv) - obj.x
+obj.oy = -obj.y + gv("y", obj.time - obj.index * itv)
+obj.zoom = gv("zoom", obj.time - obj.index * itv) * 0.01
