@@ -1,5 +1,7 @@
 # Elastic Bounce v1.0
 
+https://user-images.githubusercontent.com/106879397/209115987-43399d09-8d8a-4387-aa18-a901d25f5971.mp4
+
 トラックバーの動きに自然なバウンス(振動)を付加できるアニメーション効果です。
 `Elastic Bounce.anm`を`script`フォルダに入れることでインストールできます。
 
