@@ -3,7 +3,8 @@
 星芒形のカスタムオブジェクトを追加するスクリプトです。
 
 ## 導入方法
-`星芒形.obj`と`astroid.dll`を`script`フォルダ内またはその一階層下のフォルダ内に入れてください。
+`星芒形.obj`と`astroid.dll`を`script`フォルダ内またはその一階層下のフォルダ内に入れてください。  
+動かない場合は[VC++2022再頒布可能パッケージ(x86)](https://aka.ms/vs/17/release/vc_redist.x86.exe)をインストールしてください。
 
 ![preview002](https://github.com/mimaraka/aviutl-scripts/assets/106879397/9bfc046b-4432-4d2a-b43a-03d41b229ffd)
 
