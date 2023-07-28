@@ -1,0 +1,29 @@
+--track0:ÉTÉCÉY,0,4000,100
+--track1:ècâ°î‰,-100,100,0
+--track2:Ç∑Ç⁄Ç›,0,10,2
+--color:0xffffff
+
+local astroid = require"astroid"
+
+local size = obj.track0
+local aspect = obj.track1
+local shrink = obj.track2
+
+local w = size
+local h = size
+
+-- â°í∑ÇÃÇ∆Ç´
+if aspect < 0 then
+    h = h * (1 - math.abs(aspect) * 0.01)
+-- ècí∑ÇÃÇ∆Ç´
+else
+    w = w * (1 - math.abs(aspect) * 0.01)
+end
+
+if 0 < w and 0 < h then
+    obj.setoption("drawtarget", "tempbuffer", w, h)
+    obj.load("tempbuffer")
+    local data = obj.getpixeldata()
+    astroid.getfigure(data, w, h, shrink, color)
+    obj.putpixeldata(data)
+end
