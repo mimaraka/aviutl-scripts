@@ -1,6 +1,6 @@
---track0:ƒTƒCƒY,0,4000,100
---track1:c‰¡”ä,-100,100,0
---track2:‚·‚Ú‚İ,0,10,2
+--track0:ã‚µã‚¤ã‚º,0,4000,100,1
+--track1:ç¸¦æ¨ªæ¯”,-100,100,0
+--track2:ã™ã¼ã¿,0,10,2
 --color:0xffffff
 
 local astroid = require"astroid"
@@ -12,10 +12,10 @@ local shrink = obj.track2
 local w = size
 local h = size
 
--- ‰¡’·‚Ì‚Æ‚«
+-- æ¨ªé•·ã®ã¨ã
 if aspect < 0 then
     h = h * (1 - math.abs(aspect) * 0.01)
--- c’·‚Ì‚Æ‚«
+-- ç¸¦é•·ã®ã¨ã
 else
     w = w * (1 - math.abs(aspect) * 0.01)
 end

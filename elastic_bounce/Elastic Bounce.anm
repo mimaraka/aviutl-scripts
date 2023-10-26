@@ -1,46 +1,48 @@
---track0:ŠJŽnÌÚ°Ñ,0,1000,0,1
---track1:U•,0,10,0.1,0.01
---track2:U“®”,0,50,3,0.01
---track3:Œ¸Š,0,20,7,0.01
---dialog:U“®”’²®,local txt="100‚ðŠî€‚Æ‚µ‚½”ä";‡˜X,local x=100;‡˜Y,local y=100;‡˜Z,local z=100;‡˜Šg‘å—¦,local zoom=100;‡˜“§–¾“x,local alp=100;‡˜‰ñ“]X,local rx=100;‡˜‰ñ“]Y,local ry=100;‡˜‰ñ“]Z,local rz=100;ŠJŽnŽžŠÔŒŸo/chk,local auto=1;
+--track0:é–‹å§‹ï¾Œï¾šï½°ï¾‘,0,1000,0,1
+--track1:æŒ¯å¹…,0,10,0.1,0.01
+--track2:æŒ¯å‹•æ•°,0,50,3,0.01
+--track3:æ¸›è¡°,0,20,7,0.01
+--dialog:æŒ¯å‹•æ•°èª¿æ•´,local txt="100ã‚’åŸºæº–ã¨ã—ãŸæ¯”";âˆŸX,local x=100;âˆŸY,local y=100;âˆŸZ,local z=100;âˆŸæ‹¡å¤§çŽ‡,local zoom=100;âˆŸé€æ˜Žåº¦,local alp=100;âˆŸå›žè»¢X,local rx=100;âˆŸå›žè»¢Y,local ry=100;âˆŸå›žè»¢Z,local rz=100;é–‹å§‹æ™‚é–“æ¤œå‡º/chk,local auto=1;
 
-local stti = obj.track0/obj.framerate
+local start_t = obj.track0 / obj.framerate
 local amp = obj.track1
 local freq = obj.track2
 local dec = obj.track3
 local gv = obj.getvalue
 
-local function elasbounce(type, a)
+local function elastic_bounce(type, a)
 	local v
+	-- è‡ªå‹•æ¤œå‡ºãŒæœ‰åŠ¹ãªå ´åˆ
 	if (auto == 1) then
 		local tmp
+		-- ç›´è¿‘ã§å€¤ãŒé™æ­¢ã—ãŸæ™‚é–“ã‚’å–å¾—
 		for f = 0, obj.frame do
-			if (gv(type, f/obj.framerate) ~= gv(type, f/obj.framerate-0.001) and gv(type, f/obj.framerate) == gv(type, f/obj.framerate+0.001) and gv(type, f/obj.framerate) == gv(type, f/obj.framerate+0.1)) then
-				tmp = f/obj.framerate
+			if (gv(type, f / obj.framerate) ~= gv(type, f / obj.framerate - 0.001) and gv(type, f / obj.framerate) == gv(type, f / obj.framerate + 0.001) and gv(type, f / obj.framerate) == gv(type, f / obj.framerate + 0.1)) then
+				tmp = f / obj.framerate
 			end
 		end
 		if tmp then
-			stti = tmp
+			start_t = tmp
 		else
 			v = 0
 		end
 	end
-	if not v then
-		v = (gv(type,stti)-gv(type,stti-0.001))*1000
+	if v == nil then
+		v = (gv(type, start_t) - gv(type, start_t - 0.001)) * 1000
 	end
-	local result = v*amp*math.sin(0.01*a*freq*(obj.time-stti)*2*math.pi)/math.exp(dec*(obj.time-stti))
-	if (obj.time  >= stti) then
+	local result = v * amp * math.sin(0.01 * a * freq * (obj.time - start_t) * 2 * math.pi) / math.exp(dec * (obj.time - start_t))
+	if (obj.time  >= start_t) then
 		return result
 	else
 		return 0
 	end
 end
 
-obj.ox = elasbounce("x",x)
-obj.oy = elasbounce("y",y)
-obj.oz = elasbounce("z",z)
-obj.zoom = 1+0.01* elasbounce("zoom",zoom)
-obj.alpha = elasbounce("alpha",alp)
-obj.rx = gv"rx" + elasbounce("rx",rx)
-obj.ry = gv"ry" + elasbounce("ry",ry)
-obj.rz = gv"rz" + elasbounce("rz",rz)
+obj.ox = elastic_bounce("x", x)
+obj.oy = elastic_bounce("y", y)
+obj.oz = elastic_bounce("z", z)
+obj.zoom = 1 + 0.01 * elastic_bounce("zoom", zoom)
+obj.alpha = gv"alpha" + elastic_bounce("alpha", alp)
+obj.rx = gv"rx" + elastic_bounce("rx", rx)
+obj.ry = gv"ry" + elastic_bounce("ry", ry)
+obj.rz = gv"rz" + elastic_bounce("rz", rz)
