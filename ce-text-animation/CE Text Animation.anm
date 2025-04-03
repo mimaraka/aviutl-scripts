@@ -1,0 +1,22 @@
+--track0:X,-2000,2000,0,0.01
+--track1:Y,-2000,2000,-200,0.01
+--track2:Zoom,0,1000,100,0.01
+--track3:Rotation,-720,720,0,0.01
+--dialog:Time,local dur=1.4;Interval,local itv=0.06;Hide/chk,local hide=1;Curve,local curve={mode="bounce",param=10562110};
+
+local ce = require"curve_editor"
+ce.putselectbutton(4)
+
+local x = obj.track0
+local y = obj.track1
+local zoom = obj.track2
+local rot = obj.track3
+
+if obj.time < itv * obj.index and hide == 1 then
+    obj.alpha = 0
+end
+
+obj.ox = obj.ox + ce.getcurve(curve, (obj.time - itv * obj.index) / dur, x, 0)
+obj.oy = obj.oy + ce.getcurve(curve, (obj.time - itv * obj.index) / dur, y, 0)
+obj.zoom = obj.zoom * ce.getcurve(curve, (obj.time - itv * obj.index) / dur, zoom * 0.01, 1)
+obj.rz = obj.rz + ce.getcurve(curve, (obj.time - itv * obj.index) / dur, rot, 0)
